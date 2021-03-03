@@ -26,6 +26,11 @@ const slugToPath = (slug) => {
   return path.join(DATA_DIR, filename);
 };
 
+const removeExtension = (item) => {
+  const pos = item.lastIndexOf('.');
+  return item.slice(0, pos);
+}
+
 // initialize express app
 const app = express();
 
@@ -49,13 +54,19 @@ app.get('/api/page/:slug', async (req, res) => {
   const filename = slugToPath(req.params.slug);
   try {
     const body = await readFile(filename, 'utf-8');
-    res.json({ status: 'ok', body });
+    res.json({
+      status: 'ok',
+      body
+    });
     // return jsonOK(res, { body });
   } catch (e) {
-    res.json({ status: 'error', message: 'Page does not exist.' });
-    // return jsonError(res, 'Page does not exist.');
+    res.json({
+      status: 'error',
+      message: 'Page does not exist.'
+    });
   }
 });
+
 
 
 // POST: '/api/page/:slug'
@@ -114,22 +125,11 @@ app.get('/api/pages/all', async (req, res) => {
 });
 
 
-
 // GET: '/api/tags/all'
 // sends an array of all tag names in all files, without duplicates!
 // tags are any word in all documents with a # in front of it
 // hint: use the TAG_RE regular expression to search the contents of each file
 //  success response: {status:'ok', tags: ['tagName', 'otherTagName']}
-//  failure response: no failure response
-app.get('/api/tags/all', async (req, res) => {
-
-});
-
-
-// GET: '/api/tags/:tag'
-// searches through the contents of each file looking for the :tag
-// it will send an array of all file names that contain this tag (without .md!)
-//  success response: {status:'ok', tag: 'tagName', pages: ['tagName', 'otherTagName']}
 //  failure response: no failure response
 app.get('/api/tags/all', async (req, res) => {
   try {
@@ -173,6 +173,47 @@ app.get('/api/tags/all', async (req, res) => {
 
 });
 
+
+// GET: '/api/tags/:tag'
+// searches through the contents of each file looking for the :tag
+// it will send an array of all file names that contain this tag (without .md!)
+//  success response: {status:'ok', tag: 'tagName', pages: ['tagName', 'otherTagName']}
+//  failure response: no failure response
+app.get('/api/tags/:tag', async (req, res) => {
+  try{
+    console.log('**get search for tag in each file**');
+    const filesWithTags = [];
+    const files = fs.readdirSync(DATA_DIR);
+
+    files.forEach(file => {
+      //read files one by one
+      const readFile = `${DATA_DIR}/${file}`;
+      const  data = fs.readFileSync(readFile, 'utf8');
+
+      //get :tag param
+      const matchTag = data.match(req.params.tag);
+      //file contains the tag
+      if (matchTag){
+        const sliced = removeExtension(file);
+        filesWithTags.push(sliced);
+      }
+    });
+    //send response
+    res.json({
+      status: 'ok',
+      pages: filesWithTags
+    });
+
+  }
+  catch(e){
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: e
+    });
+  }
+
+});
 
 
 // this needs to be here for the frontend to create new wiki pages
