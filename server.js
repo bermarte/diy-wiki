@@ -26,6 +26,11 @@ const slugToPath = (slug) => {
   return path.join(DATA_DIR, filename);
 };
 
+const removeExtension = (item) => {
+  const pos = item.lastIndexOf('.');
+  return item.slice(0, pos);
+}
+
 // initialize express app
 const app = express();
 
@@ -49,13 +54,19 @@ app.get('/api/page/:slug', async (req, res) => {
   const filename = slugToPath(req.params.slug);
   try {
     const body = await readFile(filename, 'utf-8');
-    res.json({ status: 'ok', body });
+    res.json({
+      status: 'ok',
+      body
+    });
     // return jsonOK(res, { body });
   } catch (e) {
-    res.json({ status: 'error', message: 'Page does not exist.' });
-    // return jsonError(res, 'Page does not exist.');
+    res.json({
+      status: 'error',
+      message: 'Page does not exist.'
+    });
   }
 });
+
 
 
 // POST: '/api/page/:slug'
@@ -64,11 +75,20 @@ app.get('/api/page/:slug', async (req, res) => {
 //  success response: {status: 'ok'}
 //  failure response: {status: 'error', message: 'Could not write page.'}
 app.post('/api/page/:slug', async (req, res) => {
-  const filename = slugToPath(req.params.slug);
   try {
+    console.log('**post all pages**');
+
+    res.json({
+        status: 'ok',
+        body: {body: req.body}
+      });
 
   } catch (e) {
-
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: 'Could not write page.'
+    });
   }
 });
 
@@ -112,6 +132,44 @@ app.get('/api/pages/all', async (req, res) => {
 //  success response: {status:'ok', tags: ['tagName', 'otherTagName']}
 //  failure response: no failure response
 app.get('/api/tags/all', async (req, res) => {
+  try {
+    console.log('**get all tags**');
+    const tags = [];
+    const files = fs.readdirSync(DATA_DIR);
+    files.forEach(file => {
+
+      //read files one by one
+      const readFile = `${DATA_DIR}/${file}`;
+      const  data = fs.readFileSync(readFile, 'utf8');
+
+      const matchTag = data.match(TAG_RE);
+      //if we found a match we add it to the tags array
+      //matchTag is also an array
+      if (matchTag){
+        matchTag.forEach(tag => {
+          //remove '#'
+          const tmp = tag.substring(1, tag.length);
+          tags.push(tmp);
+        });
+      }
+
+    });
+    
+    //remove duplicates of our array
+    const uniq = [...new Set(tags)];
+    //send response
+    res.json({
+      status: 'ok',
+      tags: uniq
+    });
+    
+  } catch (e) {
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: e
+    });
+  }
 
 });
 
