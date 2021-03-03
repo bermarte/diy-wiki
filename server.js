@@ -64,11 +64,20 @@ app.get('/api/page/:slug', async (req, res) => {
 //  success response: {status: 'ok'}
 //  failure response: {status: 'error', message: 'Could not write page.'}
 app.post('/api/page/:slug', async (req, res) => {
-  const filename = slugToPath(req.params.slug);
   try {
+    console.log('**post all pages**');
+
+    res.json({
+        status: 'ok',
+        body: {body: req.body}
+      });
 
   } catch (e) {
-
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: 'Could not write page.'
+    });
   }
 });
 
