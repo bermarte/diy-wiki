@@ -131,9 +131,48 @@ app.get('/api/tags/all', async (req, res) => {
 // it will send an array of all file names that contain this tag (without .md!)
 //  success response: {status:'ok', tag: 'tagName', pages: ['tagName', 'otherTagName']}
 //  failure response: no failure response
-app.get('/api/tags/:tag', async (req, res) => {
+app.get('/api/tags/all', async (req, res) => {
+  try {
+    console.log('**get all tags**');
+    const tags = [];
+    const files = fs.readdirSync(DATA_DIR);
+    files.forEach(file => {
+
+      //read files one by one
+      const readFile = `${DATA_DIR}/${file}`;
+      const  data = fs.readFileSync(readFile, 'utf8');
+
+      const matchTag = data.match(TAG_RE);
+      //if we found a match we add it to the tags array
+      //matchTag is also an array
+      if (matchTag){
+        matchTag.forEach(tag => {
+          //remove '#'
+          const tmp = tag.substring(1, tag.length);
+          tags.push(tmp);
+        });
+      }
+
+    });
+    
+    //remove duplicates of our array
+    const uniq = [...new Set(tags)];
+    //send response
+    res.json({
+      status: 'ok',
+      tags: uniq
+    });
+    
+  } catch (e) {
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: e
+    });
+  }
 
 });
+
 
 
 // this needs to be here for the frontend to create new wiki pages
