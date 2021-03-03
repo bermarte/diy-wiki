@@ -79,7 +79,29 @@ app.post('/api/page/:slug', async (req, res) => {
 //  success response: {status:'ok', pages: ['fileName', 'otherFileName']}
 //  failure response: no failure response
 app.get('/api/pages/all', async (req, res) => {
+  try {
+    console.log('**get all pages**');
 
+    const pages = [];
+    const files = fs.readdirSync(DATA_DIR);
+    files.forEach(file => {
+      const sliced = removeExtension(file);
+      pages.push(sliced);
+    });
+    //send response
+    res.json({
+      status: 'ok',
+      pages: pages
+    });
+
+
+  } catch (e) {
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: e
+    });
+  }
 });
 
 
