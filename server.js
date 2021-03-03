@@ -122,6 +122,38 @@ app.get('/api/tags/all', async (req, res) => {
 //  success response: {status:'ok', tag: 'tagName', pages: ['tagName', 'otherTagName']}
 //  failure response: no failure response
 app.get('/api/tags/:tag', async (req, res) => {
+  try{
+    console.log('**get search for tag in each file**');
+    const filesWithTags = [];
+    const files = fs.readdirSync(DATA_DIR);
+
+    files.forEach(file => {
+      //read files one by one
+      const readFile = `${DATA_DIR}/${file}`;
+      const  data = fs.readFileSync(readFile, 'utf8');
+
+      //get :tag param
+      const matchTag = data.match(req.params.tag);
+      //file contains the tag
+      if (matchTag){
+        const sliced = removeExtension(file);
+        filesWithTags.push(sliced);
+      }
+    });
+    //send response
+    res.json({
+      status: 'ok',
+      pages: filesWithTags
+    });
+
+  }
+  catch(e){
+    console.log('something went wrong');
+    res.json({
+      status: 'error',
+      message: e
+    });
+  }
 
 });
 
