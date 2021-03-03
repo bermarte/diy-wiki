@@ -105,6 +105,7 @@ app.get('/api/pages/all', async (req, res) => {
 });
 
 
+
 // GET: '/api/tags/all'
 // sends an array of all tag names in all files, without duplicates!
 // tags are any word in all documents with a # in front of it
