@@ -84,14 +84,15 @@ Step 0 is to fork and clone this repo, this repo is the starter code.  Then you 
 
 __Installing Dependencies__
 1. `npm run start`(starts a server on port 4600)
-2. `npm run demo1` (starts a demo on port 5000)
+2. `npm run demo ` (starts a demo on port 5000)
 
 __Running the API__
 1. `npm run dev`
 1. Open Postman
 1. Explore `localhost:xxxx`!
 
-**Closing the Server**
+**Closing the Server**    
+
 When you’re done developing or studying you will want to close the server. If you don’t close the server will get an error the next time you try to start it, the drive will still be in use.
 1. go to the terminal window where you are running the server
 2. type `ctr-c`
