@@ -1,5 +1,12 @@
 # Do-It-Yourself Wiki
 #### Head over to https://github.com/HackYourFutureBelgium/diy-wiki
+
+### screenshot
+
+<p align="center">
+  <img src="https://github.com/bermarte/diy-wiki/blob/main/planning/screenshot.png" alt="wireframe" width="800">
+</p>
+---
 A nifty little site that allows you to create, read, and update pages in a markdown wiki.  We've provided most of the code for you. All you need to do is write the code that sits between the server and your file system, reading, writing and updating files saved on your computer.
 
 You coaches will share a link to a live, working version of this wiki so you can know how yours should work when it's finished.
