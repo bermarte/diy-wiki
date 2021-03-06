@@ -1,5 +1,6 @@
 # Do-It-Yourself Wiki
 #### Head over to https://github.com/HackYourFutureBelgium/diy-wiki
+#### [deployed on Heroku](https://diy-wiki-hyf.herokuapp.com/)
 
 ### screenshot
 
@@ -82,12 +83,19 @@ Step 0 is to fork and clone this repo, this repo is the starter code.  Then you 
 ### Running the API
 
 __Installing Dependencies__
-1. `npm install`
+1. `npm run start`(starts a server on port 4600)
+2. `npm run demo ` (starts a demo on port 5000)
 
 __Running the API__
 1. `npm run dev`
 1. Open Postman
 1. Explore `localhost:xxxx`!
+
+**Closing the Server**    
+
+When you’re done developing or studying you will want to close the server. If you don’t close the server will get an error the next time you try to start it, the drive will still be in use.
+1. go to the terminal window where you are running the server
+2. type `ctr-c`
 
 
 ### Running the Frontend
@@ -98,10 +106,22 @@ __Installing Dependencies__
 1. `npm install` or `yarn install`
 
 __Building the Frontend__
+1. `cd client`
 1. `npm run build` or `yarn build`
 
 
 [TOP](#do-it-yourself-wiki)
+
+__Deployment on Heroku__
+
+- To use npm to install your application's dependencies please delete    
+the yarn.lock file.    
+`git rm yarn.lock`    
+
+- To use yarn to install your application's dependences please delete    
+the package-lock.json file.    
+`git rm package-lock.json`    
+
 
 ---
 
