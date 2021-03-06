@@ -1,14 +1,6 @@
 # Diy-Wiki
 
-A site that allows you to create, read, and update pages in a markdown wiki.
-
----
-
-## Wireframemilestonemilestone
-
-> [diagram source](https://excalidraw.com/#json=5697932045058048,50g_dMeek8cnpk9dH1teGg)
-
-![wireframe](./wireframe.svg)
+A site that allows you to create, read, and update pages in a markdown wiki
 
 ---
 ## Get pages (_milestone_)
