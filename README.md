@@ -10,7 +10,7 @@
 
 ### tutorial
 
-[install and build the client](https://cdn.jsdelivr.net/gh/bermarte/diy-wiki/.github/images/tutorial_2021-03-04.m4v)
+[demo](https://cdn.jsdelivr.net/gh/bermarte/diy-wiki/.github/images/tutorial_2021-03-04.m4v)
 
 ---
 A nifty little site that allows you to create, read, and update pages in a markdown wiki.  We've provided most of the code for you. All you need to do is write the code that sits between the server and your file system, reading, writing and updating files saved on your computer.
